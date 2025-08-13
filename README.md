@@ -1,6 +1,6 @@
-File breakdown per experiment
+## File breakdown per experiment
 
-Offline Infer, Online Train: 
+### Offline Infer, Online Train: 
 - Runscripts: 
     -  runscripts/autoenc_dynamic_training.sh
     -  runscripts/autoenc_static_training.sh
@@ -15,7 +15,7 @@ Offline Infer, Online Train:
     - models/autoencoder_train.py
     - models/autoencoder_train_last_call.py
 
-Offline Train, Online Infer: 
+### Offline Train, Online Infer: 
 - Runscripts: 
     -  runscripts/run_offline_train_online_infer.sh
 - Input Files:
