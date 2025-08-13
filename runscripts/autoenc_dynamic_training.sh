@@ -13,4 +13,4 @@ export MASTER_PORT=29401
 
 cd /lus/grand/projects/visualization/azy4/catalyst_based_ml/Mini-Apps/ 
 
-mpiexec -n 4 --ppn 4 --depth=1 --cpu-bind depth ./set_affinity_gpu_polaris.sh ./test_build/lbm-proxy-app paper_test_training.txt ./catalyst_scripts/auto_encoder_train.py
+mpiexec -n 4 --ppn 4 --depth=1 --cpu-bind depth ./set_affinity_gpu_polaris.sh ./test_build/lbm-proxy-app proxy_input_file.txt ./bridge/autoencoder_train.py

@@ -1,0 +1,14 @@
+cmake \
+  -DPARAVIEW_BUILD_SHARED_LIBS=ON \
+  -DPARAVIEW_USE_PYTHON=ON \
+  -DPARAVIEW_USE_MPI=ON \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DPARAVIEW_USE_QT=OFF \
+  -DUSE_SYSTEM_tbb=OFF \
+  -DPARAVIEW_USE_FORTRAN=OFF \
+  -DPARAVIEW_ENABLE_GDAL=OFF \
+  -DPARAVIEW_ENABLE_CATALYST=ON \
+  -Dcatalyst_DIR=./Catalyst_Stub/catalyst-install/lib64/cmake/catalyst-2.0/ \
+  ../paraview
+
+make

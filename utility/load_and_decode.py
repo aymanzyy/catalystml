@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.pyplot import figure
 NUMPOINTS = 21504
-NUMCHANNELS = 4 ## 3 Coords, 1 Hemo
+NUMCHANNELS = 4
 LATENTSIZE=128
 SCALEVEL = True
 SCALEFACTOR = 1000000
@@ -26,6 +26,7 @@ from pn_autoencoder import PointCloudAE
 def calculate_frobenius_error(output, labels):
     num_pts = np.shape(output)[0]
     num_channels = np.shape(output)[-1]
+    
     assert(NUMPOINTS == num_pts)
     assert(NUMCHANNELS== num_channels)
    
@@ -39,9 +40,11 @@ def calculate_frobenius_error(output, labels):
     bottom_frac = np.sqrt(np.sum(np.array(gt_grid)))
     frob_err = (top_frac/bottom_frac)
     return frob_err
+
 def calculate_sep_mse_error(output, labels):
     num_pts = np.shape(output)[0]
     num_channels = np.shape(output)[-1]
+    
     assert(NUMPOINTS == num_pts)
     assert(NUMCHANNELS== num_channels)
     

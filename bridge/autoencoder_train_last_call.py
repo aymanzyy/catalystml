@@ -10,10 +10,6 @@ prev_length = len(sys.path)
 site.addsitedir("/soft/applications/conda/2024-04-29/mconda3/lib/python3.11/site-packages")
 sys.path[:] = sys.path[prev_length:] + sys.path[0:prev_length]
 
-
-sys.path.append('/lus/eagle/projects/multiphysics_aesp/azy4/mini_app/ml_models_test')
-sys.path.append('/lus/grand/projects/visualization/azy4/catalyst_based_ml/Mini-Apps/autoencoder_code_copy')
-
 import numpy as np
 
 import autoencoder_insitu_train_last_call

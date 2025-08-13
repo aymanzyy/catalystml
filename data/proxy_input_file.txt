@@ -19,5 +19,5 @@ densityChange 0.01
 writevtk 0
 
 # Number of timesteps
-timesteps 801
+timesteps 1001
 

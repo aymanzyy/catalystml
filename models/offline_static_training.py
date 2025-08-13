@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.pyplot import figure
 NUMPOINTS = 5376
-NUMCHANNELS = 4 ## 3 Coords, 1 Hemo
+NUMCHANNELS = 4
 LATENTSIZE=128
 SCALEVEL = True
 SCALEFACTOR = 1000000
@@ -67,11 +67,8 @@ class PointCloudAE(nn.Module):
             
 def prep_dataset(myRank_, with_scaling=False):
     
-    
     column_names = ['X Coord', 'Y Coord', 'Z Coord', 'Vel Mag']
-
     main_str = "coordVel_000000{}_".format(myRank_)
-    # # This way guarantees things are ordered in order of timestep
     timesteps_of_interest = np.arange(10, 810, 10)
     file_list = []
     os.listdir()
@@ -91,24 +88,17 @@ def prep_dataset(myRank_, with_scaling=False):
             numpy_array[:, -1] = numpy_array[:, -1] * SCALEFACTOR
         torch_tensor = torch.tensor(np.expand_dims(numpy_array, axis=0), dtype=torch.float32)
         X_train_tensors.append(torch_tensor)
-    cat_Torch = torch.cat(X_train_tensors, dim=0) ## Concatenate all tensors
-    cat_Torch_copy = torch.transpose(torch.cat(X_train_tensors, dim=0), 1 ,2) ## Create a copy (input is also the end result)
+    cat_Torch = torch.cat(X_train_tensors, dim=0) 
+    cat_Torch_copy = torch.transpose(torch.cat(X_train_tensors, dim=0), 1 ,2)
     return cat_Torch, cat_Torch_copy
 
 def split_into_train_test_in_order(whole_dataset):
     train_size = int(0.8 * len(whole_dataset))
     val_size = len(whole_dataset) - train_size
 
-    print("Train size : " + str(train_size))
-    print("Test size : " + str(val_size))
-
     train_indices = list(range(train_size))
     val_indices = list(range(train_size, len(whole_dataset)))
 
-    print("TRAIN INDICES")
-    print(train_indices)
-    print("VAL INDICES")
-    print(val_indices)
     train_subset = Subset(whole_dataset, train_indices)
     val_subset = Subset(whole_dataset, val_indices)
 
@@ -118,21 +108,13 @@ def split_into_train_test_in_order(whole_dataset):
 def main():
     
     myRank_ = int(MPI.COMM_WORLD.Get_rank())
-    print("My rank is " + str(myRank_))
     worldSize_ = int(MPI.COMM_WORLD.Get_size())
-    print("World size is " + str(worldSize_))
     device_count = torch.cuda.device_count()
-    print("Device Count is: " + str(device_count))
-    dist.init_process_group(backend="nccl", world_size=worldSize_, rank=myRank_) ## Initializes defaul distributed process group. Establishes communication channel
+    dist.init_process_group(backend="nccl", world_size=worldSize_, rank=myRank_) 
     local_rank = myRank_ % device_count
-    print("My local rank is: " + str(local_rank))
-    #torch.cuda.set_device(local_rank) ## Specify which CUDA device operations should use for subsequent operations
-    torch.cuda.set_device(0) # # Changed this due to the GPU pinning that Polaris' set_affinity script performs
-    print("My dist rank is: " + str(dist.get_rank()))
-    
-    
-    ## Prep data
-    device = torch.device("cuda:{}".format(0)) # # Changed this due to the GPU pinning that Polaris' set_affinity script performs
+    torch.cuda.set_device(0)     
+
+    device = torch.device("cuda:{}".format(0)) 
 
     X_train, X_train_perm = prep_dataset(myRank_, SCALEVEL)
     X_train = X_train.to(device)
@@ -142,9 +124,7 @@ def main():
     print(X_train.shape)
     
     
-    whole_dataset = TensorDataset(X_train_perm, X_train) ## Class to wrap and manage multiple tensors within a single dataset object
-
-    #train_dataset, test_dataset = split_into_train_test_in_order(whole_dataset) ## For this study in the paper, we're only training, no test
+    whole_dataset = TensorDataset(X_train_perm, X_train) 
 
     model = PointCloudAE(NUMPOINTS, LATENTSIZE)
     model = model.to(device)
@@ -160,13 +140,13 @@ def main():
     num_epochs = 80
     for epoch in range(num_epochs):
         running_loss = 0.0
-        for batch_X, batch_y in train_loader: ## x and y are the same, reconstruction problem
-            optimizer.zero_grad()  # Clear gradients from previous step
+        for batch_X, batch_y in train_loader: 
+            optimizer.zero_grad() 
             outputs = ddp_model(batch_X)
             loss = criterion(outputs, batch_y)
             running_loss += loss.item()
-            loss.backward()        # Compute gradients
-            optimizer.step()       # Update weights
+            loss.backward()       
+            optimizer.step()      
         epoch_loss = running_loss / len(train_loader)
         if (epoch % 10 == 0):
             if (myRank_ == 0):
@@ -174,7 +154,6 @@ def main():
 
         train_losses.append(epoch_loss)
 
-    #torch.save(model.state_dict(), "./autoencoder_offline_trained_dist.pth")
     plt.figure(figsize=(18, 12))
     plt.plot(train_losses, label='Training Loss')
     plt.xlabel('Epoch')
@@ -184,7 +163,6 @@ def main():
     plt.grid(True)
     plt.show()
     plt.savefig("static_dataset_insitu_train_loss_w_scaled_rank{}.png".format(myRank_))
-    np.save("training_losses_static_offline_rank{}".format(myRank_), train_losses)
 
 if __name__ == "__main__":
     main()

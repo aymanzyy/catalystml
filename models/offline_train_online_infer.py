@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.pyplot import figure
 
-from models.pn_autoencoder import PointCloudAE
+from pn_autoencoder import PointCloudAE
 NUMPOINTS = 21504
 NUMCHANNELS = 4
 LATENTSIZE=128

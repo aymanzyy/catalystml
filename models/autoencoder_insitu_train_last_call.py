@@ -1,4 +1,3 @@
-
 from mpi4py import MPI
 import pandas as pd
 import numpy as np
@@ -23,7 +22,7 @@ from matplotlib.pyplot import figure
 sys.path.append("/lus/grand/projects/visualization/azy4/catalyst_based_ml/autoencoder/")
 from dynamic_dataset_class_definition import DynamicDataset
 
-from models.pn_autoencoder import PointCloudAE
+from pn_autoencoder import PointCloudAE
 NUMPOINTS_PER_RANK=5376
 NUMCHANNELS = 4
 LATENTSIZE=128
