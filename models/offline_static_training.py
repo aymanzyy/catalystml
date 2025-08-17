@@ -23,8 +23,8 @@ NUMCHANNELS = 4
 LATENTSIZE=128
 SCALEVEL = True
 SCALEFACTOR = 1000000
-MODELPATH = "/lus/grand/projects/visualization/azy4/catalyst_based_ml/autoencoder/model_weights/dist_autoenc.pth"
-LBMDATAPATH = "/lus/grand/projects/visualization/azy4/catalyst_based_ml/Mini-Apps/paper_lbm_data_for_offline_training_comp_4rank/"
+MODELPATH = "dist_autoenc.pth"
+LBMDATAPATH = ""
 
 class PointCloudAE(nn.Module):
     def __init__(self, point_size, latent_size):

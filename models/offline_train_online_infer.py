@@ -22,7 +22,7 @@ NUMCHANNELS = 4
 LATENTSIZE=128
 SCALEVEL = True
 SCALEFACTOR = 1000000
-MODELPATH = "/lus/grand/projects/visualization/azy4/catalyst_based_ml/autoencoder/model_weights/autoenc_paper.pth"
+MODELPATH = "autoenc_paper.pth"
 
 model = PointCloudAE(NUMPOINTS, LATENTSIZE)
 device = torch.device("cuda:{}".format(0))

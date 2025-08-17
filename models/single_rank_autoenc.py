@@ -20,7 +20,7 @@ NUMCHANNELS = 4
 LATENTSIZE=128
 SCALEVEL = True
 SCALEFACTOR = 1000000
-MODELPATH = "/lus/grand/projects/visualization/azy4/catalyst_based_ml/autoencoder/model_weights/autoenc_paper.pth"
+MODELPATH = "autoenc_paper.pth"
 
 class PointCloudAE(nn.Module):
     def __init__(self, point_size, latent_size):
@@ -95,7 +95,7 @@ def prep_dataset(with_scaling=False):
     
     column_names = ['X Coord', 'Y Coord', 'Z Coord', 'Vel Mag']
 
-    dir_path = "/lus/grand/projects/visualization/azy4/catalyst_based_ml/Mini-Apps/lbm_data_1rank/"
+    dir_path = "./lbm_data_1rank/"
     main_str = "coordVel_0000000_"
 
     timesteps_of_interest = np.arange(10, 1010, 10)

@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.pyplot import figure
 
-sys.path.append("/lus/grand/projects/visualization/azy4/catalyst_based_ml/autoencoder/")
+sys.path.append("autoencoder/")
 from dynamic_dataset_class_definition import DynamicDataset
 
 from pn_autoencoder import PointCloudAE
@@ -28,7 +28,7 @@ NUMCHANNELS = 4
 LATENTSIZE=128
 SCALEVEL = True
 SCALEFACTOR = 1000000
-MODELPATH = "/lus/grand/projects/visualization/azy4/catalyst_based_ml/autoencoder/model_weights/autoenc.pth"
+MODELPATH = "autoenc.pth"
 
 myRank_ = int(MPI.COMM_WORLD.Get_rank())
 worldSize_ = int(MPI.COMM_WORLD.Get_size())
