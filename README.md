@@ -36,7 +36,7 @@ METHODOLOGICAL INFORMATION
 
 Description of methods used for collection/generation of data: 
 
-The first set of experiments, whose results are showcased in Figure 2, encompasses the demonstration of in situ training of the point-cloud autoencoder. The experiment workflow begins with the HARVEY simulation. Fluid data is passed at runtime to train the autoencoder model. We provide the HARVEY input file proxy_input_file.txt}. The referenced runscripts generate simulations, with each involving a distinct training paradigm as outlined in the manuscript. Each runscript defines an input file and a bridge script as input arguments. We run the autoenc_static_training.sh, autoenc_dynamic_training.sh, and autoenc_offline_static_training.sh} to generate the loss curves for the in situ training on a static dataset, in situ training on a dynamic dataset, and offline training on a static dataset. Model loss curves are generated with the matplotlib library in situ and saved on disk. 
+The first set of experiments, whose results are showcased in Figure 2, encompasses the demonstration of in situ training of the point-cloud autoencoder. The experiment workflow begins with the HARVEY simulation. Fluid data is passed at runtime to train the autoencoder model. We provide the HARVEY input file proxy_input_file.txt. The referenced runscripts generate simulations, with each involving a distinct training paradigm as outlined in the manuscript. Each runscript defines an input file and a bridge script as input arguments. We run the autoenc_static_training.sh, autoenc_dynamic_training.sh, and autoenc_offline_static_training.sh to generate the loss curves for the in situ training on a static dataset, in situ training on a dynamic dataset, and offline training on a static dataset. Model loss curves are generated with the matplotlib library in situ and saved on disk. 
 
 
 The experiment workflow began with a HARVEY simulation to generate training data for the offline training of the autoencoder model. To generate the reconstructed fluid domain illustrated in Figure 3, we then performed offline model training using the run_offline_train_for_infer runscript in order to generate the weights loaded in during runtime. We then ran the run_offline_train_online_infer runscript, simulating the HARVEY proxy app in which the train autoencoder is loaded and the encoding module is invoked to perform lossy compression. Once the simulation concludes, we evaluate the fidelity of encoding by decoding the saved latent vector using the load_and_decode.py script. 
@@ -45,29 +45,31 @@ The experiment workflow began with a HARVEY simulation to generate training data
 - Runscripts: 
     -  runscripts/autoenc_dynamic_training.sh
     -  runscripts/autoenc_static_training.sh
-    -  Whatever the other offline one was
+    -  runscripts/autoenc_offline_static_training.sh
 - Input Files:
-    - runscripts/proxy_input_file.txt
+    - data/proxy_input_file.txt
 - Model Scripts:
     - models/autoencoder_insitu_train.py
     - models/autoencoder_insitu_train_last_call.py
     - models/offline_static_training.py
 - Bridge Scripts:
-    - models/autoencoder_train.py
-    - models/autoencoder_train_last_call.py
+    - bridge/autoencoder_train.py
+    - bridge/autoencoder_train_last_call.py
 
 ### Offline Train, Online Infer: 
 - Runscripts: 
+    -  runscripts/run_offline_train_for_infer.sh
     -  runscripts/run_offline_train_online_infer.sh
 - Input Files:
-    - runscripts/proxy_input_file.txt
+    - data/proxy_input_file.txt
 - Model Scripts:
+    - models/single_rank_autoenc.py
     - models/offline_train_online_infer.py
 - Bridge Scripts:
-    - models/catalyst_autoencoder_offline_train_online_infer.py
+    - bridge/autoencoder_offline_train_online_infer.py
 
 --------------------------
-DATA-SPECIFIC INFORMATION <Create sections for EACH data file or set, as appropriate>
+DATA-SPECIFIC INFORMATION 
 --------------------------
 
 - /𝑑𝑎𝑡𝑎: The input files, including text files defining the cylindrical input geometry and model parameters, are defined.
