@@ -1,3 +1,7 @@
+## Clone repository
+git clone --branch v5.13.0 https://github.com/Kitware/ParaView.git
+
+## Configure the build
 cmake \
   -DPARAVIEW_BUILD_SHARED_LIBS=ON \
   -DPARAVIEW_USE_PYTHON=ON \
@@ -11,4 +15,5 @@ cmake \
   -Dcatalyst_DIR=./Catalyst_Stub/catalyst-install/lib64/cmake/catalyst-2.0/ \
   ../paraview
 
+## Install the build
 make
